@@ -43,10 +43,18 @@ public class AuthService {
 
         User savedUser = userRepository.save(user);
 
-        emailService.sendRegistrationConfirmation(
-                savedUser.getEmail(),
-                savedUser.getName()
-        );
+        try {
+            emailService.sendRegistrationConfirmation(
+                    savedUser.getEmail(),
+                    savedUser.getName()
+            );
+        } catch (Exception e) {
+            System.err.println(
+                    "Registration email could not be sent to "
+                            + savedUser.getEmail()
+            );
+            e.printStackTrace();
+        }
 
         return savedUser;
     }
