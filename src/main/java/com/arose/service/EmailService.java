@@ -16,36 +16,39 @@ public class EmailService {
     public EmailService(JavaMailSender mailSender) {
         this.mailSender = mailSender;
     }
-
     public void sendRegistrationConfirmation(
             String recipientEmail,
             String recipientName
     ) {
 
-        SimpleMailMessage message =
-                new SimpleMailMessage();
+        try {
+            SimpleMailMessage message = new SimpleMailMessage();
 
-        message.setFrom(senderEmail);
-        message.setTo(recipientEmail);
+            message.setFrom(senderEmail);
+            message.setTo(recipientEmail);
+            message.setSubject("Welcome to AROSE");
 
-        message.setSubject(
-                "Welcome to AROSE"
-        );
+            message.setText(
+                    "Hi " + recipientName + ",\n\n" +
+                            "Welcome to AROSE! 👗\n\n" +
+                            "Your AROSE account has been successfully created.\n\n" +
+                            "You can now log in and start using AROSE.\n\n" +
+                            "Thank you for joining us!\n\n" +
+                            "— AROSE Team"
+            );
 
-        message.setText(
-                "Hi " + recipientName + ",\n\n" +
+            System.out.println("Sending email...");
+            System.out.println("From: " + senderEmail);
+            System.out.println("To: " + recipientEmail);
 
-                        "Welcome to AROSE! 👗\n\n" +
+            mailSender.send(message);
 
-                        "Your AROSE account has been successfully created.\n\n" +
+            System.out.println("EMAIL SENT SUCCESSFULLY");
 
-                        "You can now log in and start using AROSE.\n\n" +
+        } catch (Exception e) {
+            System.out.println("EMAIL FAILED");
+            e.printStackTrace();
 
-                        "Thank you for joining us!\n\n" +
-
-                        "— AROSE Team"
-        );
-
-        mailSender.send(message);
-    }
-}
+            throw e;
+        }
+    }}
