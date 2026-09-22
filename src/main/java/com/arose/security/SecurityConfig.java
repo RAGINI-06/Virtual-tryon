@@ -45,11 +45,13 @@ public class SecurityConfig {
                 )
 
 
-                        .authorizeHttpRequests(auth -> auth
-                                .requestMatchers("/api/auth/**").permitAll()
-                                .requestMatchers("/api/guest/**").permitAll()
-                                .anyRequest().authenticated()
-                        )
+                .authorizeHttpRequests(auth -> auth
+                        .requestMatchers("/", "/health").permitAll()
+                        .requestMatchers("/api/auth/**").permitAll()
+                        .requestMatchers("/api/guest/**").permitAll()
+                        .requestMatchers("/api/try-on/upload").permitAll()
+                        .anyRequest().authenticated()
+                )
 
                 .addFilterBefore(
                         jwtAuthenticationFilter,
