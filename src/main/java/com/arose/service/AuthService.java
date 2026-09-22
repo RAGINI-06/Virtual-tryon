@@ -28,7 +28,6 @@ public class AuthService {
         this.jwtService = jwtService;
         this.emailService = emailService;
     }
-
     public User register(RegisterRequest request) {
 
         if (userRepository.existsByEmail(request.getEmail())) {
@@ -43,6 +42,7 @@ public class AuthService {
 
         User savedUser = userRepository.save(user);
 
+        // Email failure should NOT fail registration
         try {
             emailService.sendRegistrationConfirmation(
                     savedUser.getEmail(),
@@ -58,7 +58,6 @@ public class AuthService {
 
         return savedUser;
     }
-
     public LoginResponse login(LoginRequest request) {
 
         User user = userRepository
